@@ -181,6 +181,7 @@ eleByID("resetgame").onclick = function() {
 	data.game.play.avgbattery = 0
 
 	data.gamestatus = 0
+	updateTextByID("avgbattery", data.game.play.avgbattery.toString())
 }
 
 let roll = (min, max, cost) => {
@@ -360,10 +361,10 @@ function gLoop() {
 		let redeemchip = 6 * data.game.redeemchipbase
 		let batteryspent = data.game.play.batteryspent
 		let worth = toDecimal(batteryspent/redeemchip,2)
-		data.game.points = 0
+		
 		data.game.datachip += redeemchip
 		textlog(4, 'BLACKJACK! '+redeemchip+'<i class="datachip"></i> for '+data.game.points+' pts  ('+batteryspent+'<i class="battery"></i> spent, '+worth+'<i class="battery"></i>/<i class="datachip"></i>). You now have '+data.game.datachip+'<i class="datachip"></i>')
-		
+		data.game.points = 0
 	}
 }
 
