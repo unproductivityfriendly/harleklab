@@ -128,3 +128,16 @@ section#definebattery > div > div {
 #logtext p {
 	margin: 1px 3px;
 }
+
+p.roll {
+	background-color: #B7E1CD
+}
+p.fail {
+	background-color: #E06666
+}
+p.redeem {
+	background-color: #00FF00
+}
+p.blackjack {
+	background-color: #00FFFF
+}
