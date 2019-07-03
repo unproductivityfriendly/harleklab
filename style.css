@@ -1,0 +1,130 @@
+html,body {
+	margin:0;padding: 3px;
+}
+
+.gem {
+	background-image: url('gem.png');
+	width: 15px;
+    height: 16px;
+    display: inline-block;
+    background-size: contain;
+    margin: 0px 1px -2px 1px;
+}
+
+.battery {
+	background-image: url('battery.png');
+	width: 13px;
+    height: 14px;
+    display: inline-block;
+    background-size: contain;
+    margin: 0px 1px -1px 1px;
+}
+.datachip {
+	background-image: url('datachip.png');
+	width: 13px;
+    height: 14px;
+    display: inline-block;
+    background-size: contain;
+    margin: 0px 1px -1px 1px;
+}
+
+#sectionleft,
+#sectionright {
+	float: left;
+	height: 100%;
+}
+
+section {
+	border: solid black 2px;
+	margin:2px;
+}
+section#definebattery,
+section#game {
+	width: 500px;
+}
+section#definebattery > div {
+	position: relative;
+	margin: 1px;
+	border: dotted orange 1px;
+}
+section#definebattery > div > div {
+	display: inline-block;
+	width: 150px;
+}
+
+#definebattery[data-status="1"] #idb-idle,
+#definebattery[data-status="1"] #idb-purchase {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+#game[data-status="0"] {
+	opacity: 0.5;
+	pointer-events: none;
+}
+#gauge-container {
+  width: 440px;
+  background-color: #140A0C;
+  border: solid black 3px;
+  margin-left: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+#gauge {
+  width: 20px;
+  height: 30px;
+  background-color: #FEFF32;
+  overflow: visible;
+}
+#breakpoints {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	top: 0;
+}
+.game-breakpoint {
+	background-color: orange;
+	width: 3px;
+	position: absolute;
+	height: 40px;
+	top: -6px;
+	border: solid red 1px;
+	overflow: visible;
+	text-align: center;
+}
+.game-bp-label-multiplier {
+	position: absolute;
+	top: -20px;
+	left: -6px;
+}
+.game-bp-label-points {
+	position: absolute;
+	bottom: -20px;
+	left: -6px;
+}
+#bp1 {left: calc(12 * 20px - 1px)}
+#bp2 {left: calc(15 * 20px - 1px)}
+#bp3 {left: calc(17 * 20px - 1px)}
+#bp4 {left: calc(19 * 20px - 1px)}
+#bp5 {left: calc(21 * 20px - 1px)}
+#redeem[data-canredeem="0"] {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+#logs {
+	width: 500px;
+	min-height: 620px;
+	max-height: 640px;
+}
+#logtext {
+	width: 100%;
+	height: 581px;
+	overflow-y: scroll;
+}
+#logtext p {
+	margin: 1px 3px;
+}

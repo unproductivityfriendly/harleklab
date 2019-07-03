@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TTH Blackjack simulator</title>
+	<meta charset=utf-8>
+	<meta name=description content="balmung">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<section>
+		<h1>TTH Event Blackjack Simulator (Hayenn#0109)</h1>
+		<ol>
+		    <li>Set the amount of battery you want to use, then hit Start</li>
+		    <li>Start Rolling for the best score, then Redeem the prize</li>
+		    <li>Exceeding 21 points will set the gauge at 0, the <i class="battery"></i> is lost</li>
+		    <li>You can buy packages to get <i class="battery"></i> while you play</li>
+		    <li>You can reset the game to restart from 0</li>
+		</ol>
+	</section>
+	<div id="sectionleft">
+		<section id="definebattery" data-status="0">
+			<div id="db-header">
+				<h2>Set Battery amount</h2>
+			</div>
+			<div id="db-header">
+				<div id="db-header-left"></div>
+				<div id="db-header-middle">Daily</div>
+				<div id="db-header-right">Week (entire event)</div>
+			</div>
+			<div id="db-free">
+				<div id="db-free-label">Free (mail)</div>
+				<div id="db-free-daily">100<i class="battery"></i> </div>
+				<div id="db-free-week">700<i class="battery"></i></div>
+			</div>
+			<div id="db-idle">
+				<div id="db-idle-label">Idle</div>
+				<div id="db-idle-daily"><input id="idb-idle" name="idb-idle" type="number" min="1" max="100" step="1" value="60"></div>
+				<div id="db-idle-week"><span id="db-idle-week-value">0</span><i class="battery"></i></div>
+			</div>
+			<div id="db-spacing">
+				<div>&nbsp;</div>
+			</div>
+			<div id="db-spacing">
+				<div>&nbsp;</div>
+			</div>
+			<div id="db-spacing">
+				<div>&nbsp;</div>
+				<div>Battery</div>
+				<div>Cost</div>
+			</div>
+			<div id="db-purchase">
+				<div id="db-purchase-label">Purchase</div>
+				<div id="db-purchase-amount"><input id="idb-purchase" type="number" min="0" max="2000" step="100" value="0"></div>
+				<div id="db-purchase-cost"><span id="db-purchase-cost-value">200</span><i class="gem"></i></div>
+			</div>
+			<div id="db-spacing">
+				<h3>Packages, limit each: 4</h3>
+			</div>
+			<div id="db-package1">
+				<div id="db-package1-label">Package $100<br>1000<i class="battery"></i> each</div>
+				<div id="db-package1-amount"><span id="db-package1-value">0</span><i class="battery"></i></div>
+				<div id="db-package1-cost"><button id="buy-p1">Buy</button> $<span id="db-package1-cost-value">0</span> (x<span id="db-package1-cost-n">0</span>)</div>
+			</div>
+			<div id="db-package2">
+				<div id="db-package2-label">Package $70<br>700<i class="battery"></i> each</div>
+				<div id="db-package2-amount"><span id="db-package2-value">0</span><i class="battery"></i></div>
+				<div id="db-package2-cost"><button id="buy-p2">Buy</button> $<span id="db-package2-cost-value">0</span> (x<span id="db-package2-cost-n">0</span>)</div>
+			</div>
+			<div id="db-package3">
+				<div id="db-package3-label">Package $30<br>300<i class="battery"></i> each</div>
+				<div id="db-package3-amount"><span id="db-package3-value">0</span><i class="battery"></i></div>
+				<div id="db-package3-cost"><button id="buy-p3">Buy</button> $<span id="db-package3-cost-value">0</span> (x<span id="db-package3-cost-n">0</span>)</div>
+			</div>
+			<div id="db-package4">
+				<div id="db-package4-label">Package $10<br>100<i class="battery"></i> each</div>
+				<div id="db-package4-amount"><span id="db-package4-value">0</span><i class="battery"></i></div>
+				<div id="db-package4-cost"><button id="buy-p4">Buy</button> $<span id="db-package4-cost-value">0</span> (x<span id="db-package4-cost-n">0</span>)</div>
+			</div>
+			<div id="db-startreset">
+				<div>
+					<button id="startgame">start</button>
+					<button id="resetgame">reset</button>
+				</div>
+				<div>Total: <span id="db-total-battery">0</span><i class="battery"></i></div>
+				<div>(<span id="db-total-gem">0</span><i class="gem"></i> & $<span id="db-total-dalla">0</span>)</div>
+			</div>
+		</section>
+		<section id="game" data-status="0">
+			<div id="currency">
+				Points <span id="game-points">0</span> /
+				<span id="game-battery">0</span><i class="battery"></i> / <span id="game-datachip">0</span><i class="datachip"></i><br>
+				<span id="game-points-fromperfect">0</span> more to 21 points.
+			</div>
+			<div id="gamegauge">
+				<div id="gauge-container">
+					<div id="gauge"></div>
+					<div id="breakpoints">
+						<div id="bp1" class="game-breakpoint">
+							<span class="game-bp-label-multiplier">x1</span>
+							<span class="game-bp-label-points">12</span>
+						</div>
+						<div id="bp2" class="game-breakpoint">
+							<span class="game-bp-label-multiplier">x1.2</span>
+							<span class="game-bp-label-points">15</span>
+						</div>
+						<div id="bp3" class="game-breakpoint">
+							<span class="game-bp-label-multiplier">x1.8</span>
+							<span class="game-bp-label-points">17</span>
+						</div>
+						<div id="bp4" class="game-breakpoint">
+							<span class="game-bp-label-multiplier">x3.2</span>
+							<span class="game-bp-label-points">19</span>
+						</div>
+						<div id="bp5" class="game-breakpoint">
+							<span class="game-bp-label-multiplier">x6</span>
+							<span class="game-bp-label-points">21</span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div id="gamebuttons">
+				<button id="roll1">Roll 1-9 for 10<i class="battery"></i></button>
+				<button id="roll2">Roll 1-6 for 20<i class="battery"></i></button>
+				<button id="roll3">Roll 1-3 for 40<i class="battery"></i></button>
+				<button id="redeem" data-canredeem="0">Redeem for <span id="game-redeem-dc">0</span><i class="datachip"></i></button>
+			</div>
+		</section>
+	</div>
+	<div id="sectionright">
+		<section id="logs">
+			<h3>Logs (average : <span id="avgbattery">0</span><i class="battery"></i>/<i class="datachip"></i>)</h3>
+			<div id="logtext">
+				
+			</div>
+		</section>
+	</div>
+	
+
+	<div>
+		<script src="blackjack.js"></script>
+
+	</div>
+</body>
+</html>
