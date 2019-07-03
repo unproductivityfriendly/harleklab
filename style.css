@@ -62,6 +62,31 @@ section#definebattery > div > div {
 	opacity: 0.5;
 	pointer-events: none;
 }
+
+#currency {
+	position: relative;
+	height: 40px
+}
+#game-points-container,
+#game-battery-container,
+#game-datachip-container,
+#game-fromperfect-container {
+	position: absolute;
+	top: 0;
+}
+#game-points-container {
+	right: 350px;
+}
+#game-battery-container {
+	right: 200px;
+}
+#game-datachip-container {
+	right: 50px;
+}
+#game-fromperfect-container {
+	top: 20px;
+	right: 319px;
+}
 #gauge-container {
   width: 440px;
   background-color: #140A0C;

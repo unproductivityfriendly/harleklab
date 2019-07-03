@@ -131,7 +131,8 @@ var data = {
 			redeem: 0,
 			avgbattery: 0,
 		}
-	}
+	},
+	autoplay: 0
 }
 
 eleByID("buy-p1").onclick = function() {
@@ -204,7 +205,7 @@ let roll = (min, max, cost) => {
 			textlog(1, 'You rolled '+rolled+' for '+cost+'<i class="battery"></i>. You reached '+data.game.points+' pts.')
 		}
 	}
-	
+	if (data.game.battery === 0) {redeem()}
 } 
 let redeem = () => {
 	if (data.game.points >= 12 && data.game.points <= 20) {
@@ -255,7 +256,19 @@ eleByID("roll1").onclick = function() {roll(1,9,10)}
 eleByID("roll2").onclick = function() {roll(1,6,20)}
 eleByID("roll3").onclick = function() {roll(1,3,40)}
 eleByID("redeem").onclick = function() {redeem()}
+eleByID("autoplay").onclick = function() {data.autoplay = 1}
 
+function autoplay() {
+	if (data.game.battery === 0) {
+		data.autoplay = 0
+		return false
+	}
+	if(data.game.points <= 14) {
+		roll(1,9,10)
+	} else {
+		redeem()
+	}
+}
 
 function dbLoop() {
 	updateAttributeByID("definebattery", "data-status", data.gamestatus)
@@ -329,6 +342,9 @@ function gLoop() {
 	let redeemfor = getRedeemRatio() * data.game.redeemchipbase
 	updateTextByID("game-redeem-dc", redeemfor.toString())
 
+	if (data.autoplay === 1) {
+		autoplay()
+	}
 
 	if (data.game.datachip > 0) {
 		data.game.play.avgbattery = toDecimal(data.game.play.totalbatteryspent/data.game.datachip,3)

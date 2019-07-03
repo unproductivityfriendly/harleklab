@@ -89,9 +89,10 @@
 		</section>
 		<section id="game" data-status="0">
 			<div id="currency">
-				Points <span id="game-points">0</span> /
-				<span id="game-battery">0</span><i class="battery"></i> / <span id="game-datachip">0</span><i class="datachip"></i><br>
-				<span id="game-points-fromperfect">0</span> more to 21 points.
+				<span id="game-points-container"><span id="game-points">0</span> Gauge Points</span>
+				<span id="game-battery-container"><span id="game-battery">0</span><i class="battery"></i></span>
+				<span id="game-datachip-container"><span id="game-datachip">0</span><i class="datachip"></i></span>
+				<span id="game-fromperfect-container"><span id="game-points-fromperfect">0</span> more to 21 points.</span>
 			</div>
 			<div id="gamegauge">
 				<div id="gauge-container">
@@ -126,6 +127,9 @@
 				<button id="roll2">Roll 1-6 for 20<i class="battery"></i></button>
 				<button id="roll3">Roll 1-3 for 40<i class="battery"></i></button>
 				<button id="redeem" data-canredeem="0">Redeem for <span id="game-redeem-dc">0</span><i class="datachip"></i></button>
+			</div>
+			<div>
+				<button id="autoplay">Auto play (Roll 1-9 only, when pts <= 14)</button>
 			</div>
 		</section>
 	</div>
