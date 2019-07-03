@@ -256,14 +256,19 @@ eleByID("roll1").onclick = function() {roll(1,9,10)}
 eleByID("roll2").onclick = function() {roll(1,6,20)}
 eleByID("roll3").onclick = function() {roll(1,3,40)}
 eleByID("redeem").onclick = function() {redeem()}
-eleByID("autoplay").onclick = function() {data.autoplay = 1}
+eleByID("autoplay12").onclick = function() {data.autoplay = 12}
+eleByID("autoplay13").onclick = function() {data.autoplay = 13}
+eleByID("autoplay14").onclick = function() {data.autoplay = 14}
+eleByID("autoplay15").onclick = function() {data.autoplay = 15}
+eleByID("autoplay16").onclick = function() {data.autoplay = 16}
+eleByID("autoplay17").onclick = function() {data.autoplay = 17}
 
 function autoplay() {
 	if (data.game.battery === 0) {
 		data.autoplay = 0
 		return false
 	}
-	if(data.game.points <= 14) {
+	if(data.game.points <= data.autoplay) {
 		roll(1,9,10)
 	} else {
 		redeem()
@@ -342,7 +347,7 @@ function gLoop() {
 	let redeemfor = getRedeemRatio() * data.game.redeemchipbase
 	updateTextByID("game-redeem-dc", redeemfor.toString())
 
-	if (data.autoplay === 1) {
+	if (data.autoplay !== 0) {
 		autoplay()
 	}
 
