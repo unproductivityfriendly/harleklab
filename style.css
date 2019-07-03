@@ -21,8 +21,8 @@ html,body {
 }
 .datachip {
 	background-image: url('datachip.png');
-	width: 13px;
-    height: 14px;
+	width: 19px;
+    height: 15px;
     display: inline-block;
     background-size: contain;
     margin: 0px 1px -1px 1px;
