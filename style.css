@@ -127,6 +127,7 @@ section#definebattery > div > div {
 }
 #logtext p {
 	margin: 1px 3px;
+	color: #000000
 }
 
 p.roll {
