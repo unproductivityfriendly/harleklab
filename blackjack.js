@@ -273,6 +273,9 @@ eleByID("autoplay14").onclick = function() {data.autoplay = 14}
 eleByID("autoplay15").onclick = function() {data.autoplay = 15}
 eleByID("autoplay16").onclick = function() {data.autoplay = 16}
 eleByID("autoplay17").onclick = function() {data.autoplay = 17}
+eleByID("autoplay22").onclick = function() {data.autoplay = 22}
+eleByID("autoplay23").onclick = function() {data.autoplay = 23}
+eleByID("autoplay24").onclick = function() {data.autoplay = 24}
 eleByID("continuous").onclick = function() {data.continuous = !data.continuous}
 eleByID("stopautoplay").onclick = function() {data.continuous = false;data.autoplay=0}
 
@@ -281,12 +284,73 @@ function autoplay() {
 		data.autoplay = 0
 		return false
 	}
-	if(data.game.points <= data.autoplay) {
-		roll(1,9,10)
-	} else {
-		redeem()
-	}
+	if (data.autoplay < 22) {
+		if (data.game.points <= data.autoplay) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else {
+				roll(1,9,10)
+			}
+		} else {
+			redeem()
+		}
 
+	} else if (data.autoplay === 22) {
+		if (data.game.points < 15) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else {
+				roll(1,9,10)
+			}
+		} else if (data.game.points < 17) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else if (data.game.battery < 20) {
+				roll(1,9,10)
+			} else {
+				roll(1,6,20)
+			}
+		} else {
+			redeem()
+		}
+	} else if (data.autoplay === 23) {
+		if (data.game.points < 15) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else {
+				roll(1,9,10)
+			}
+		} else if (data.game.points < 16) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else if (data.game.battery < 20) {
+				roll(1,9,10)
+			} else {
+				roll(1,6,20)
+			}
+		} else {
+			redeem()
+		}
+	} else if (data.autoplay === 24) {
+		if (data.game.points < 15) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else {
+				roll(1,9,10)
+			}
+		} else if (data.game.points < 18) {
+			if (data.game.battery < 10) {
+				redeem()
+			} else if (data.game.battery < 20) {
+				roll(1,9,10)
+			} else {
+				roll(1,6,20)
+			}
+		} else {
+			redeem()
+		}
+	}
+	
 	if (data.game.battery === 0 && data.continuous) {
 		autoreplay()
 	}
@@ -308,6 +372,10 @@ function autoreplay() {
 
 	if (data.replay % 100 === 0) {
 		eleByID("logtext").innerHTML = ""
+	}
+	if (data.replay % 1000 === 0) {
+		data.continuous = false;
+		data.autoplay=0
 	}
 }
 
