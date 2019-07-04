@@ -132,7 +132,8 @@ var data = {
 			avgbattery: 0,
 		}
 	},
-	autoplay: 0
+	autoplay: 0,
+	continuous: false,
 }
 
 eleByID("buy-p1").onclick = function() {
@@ -238,18 +239,23 @@ let getRedeemRatio = () => {
 */
 let textlog = (type, message) => {
 	let classtype = ""
-	if (type === 1) {
-		classtype = "roll"
-	} else if (type === 2) {
-		classtype = "fail"
-	} else if (type === 3) {
-		classtype = "redeem"
-	} else if (type === 4) {
-		classtype = "blackjack"
-	}
 	let madiv = eleByID("logtext")
-	madiv.innerHTML += '<p class="'+classtype+'">'+message+'</p>'
-	madiv.scrollTop = madiv.scrollHeight;
+	if (data.continuous === false && type < 10) {
+		if (type === 1) {
+			classtype = "roll"
+		} else if (type === 2) {
+			classtype = "fail"
+		} else if (type === 3) {
+			classtype = "redeem"
+		} else if (type === 4) {
+			classtype = "blackjack"
+		}
+		madiv.innerHTML += '<p class="'+classtype+'">'+message+'</p>'
+		madiv.scrollTop = madiv.scrollHeight;
+	} else if (data.continuous && type === 10) {
+		madiv.innerHTML += '<p class="autoplayresult">'+message+'</p>'
+		madiv.scrollTop = madiv.scrollHeight;
+	}
 }
 
 eleByID("roll1").onclick = function() {roll(1,9,10)}
@@ -262,6 +268,8 @@ eleByID("autoplay14").onclick = function() {data.autoplay = 14}
 eleByID("autoplay15").onclick = function() {data.autoplay = 15}
 eleByID("autoplay16").onclick = function() {data.autoplay = 16}
 eleByID("autoplay17").onclick = function() {data.autoplay = 17}
+eleByID("continuous").onclick = function() {data.continuous = !data.continuous}
+eleByID("stopautoplay").onclick = function() {data.continuous = false;data.autoplay=0}
 
 function autoplay() {
 	if (data.game.battery === 0) {
@@ -273,6 +281,25 @@ function autoplay() {
 	} else {
 		redeem()
 	}
+
+	if (data.game.battery === 0 && data.continuous) {
+		autoreplay()
+	}
+}
+
+function autoreplay() {
+	let avg = toDecimal(data.game.play.totalbatteryspent/data.game.datachip,3)
+	textlog(10,'Autoplay: redeem if >'+data.autoplay+' | '+data.game.datachip+'<i class="datachip"></i>. '+data.game.play.totalbatteryspent+'<i class="battery"></i> used. Avg '+avg+'<i class="battery"></i>/<i class="datachip"></i>')
+
+	data.game.battery = 0
+	data.game.points = 0
+	data.game.datachip = 0
+	data.game.play.batteryspent = 0
+	data.game.play.totalbatteryspent = 0
+	data.game.play.redeem = 0
+	data.game.play.avgbattery = 0
+
+	data.game.battery = data.battery.total
 }
 
 function dbLoop() {
@@ -338,20 +365,22 @@ function dbLoop() {
 
 function gLoop() {
 	updateAttributeByID("game", "data-status", data.gamestatus)
+	if (!data.continuous) {
+		updateTextByID("game-points", data.game.points.toString())
+		updateTextByID("game-battery", data.game.battery.toString())
+		updateTextByID("game-datachip", data.game.datachip.toString())
+		updateTextByID("game-points-fromperfect", (21 - data.game.points).toString())
 
-	updateTextByID("game-points", data.game.points.toString())
-	updateTextByID("game-battery", data.game.battery.toString())
-	updateTextByID("game-datachip", data.game.datachip.toString())
-	updateTextByID("game-points-fromperfect", (21 - data.game.points).toString())
-
-	let redeemfor = getRedeemRatio() * data.game.redeemchipbase
-	updateTextByID("game-redeem-dc", redeemfor.toString())
+		let redeemfor = getRedeemRatio() * data.game.redeemchipbase
+		updateTextByID("game-redeem-dc", redeemfor.toString())
+	}
+	updateAttributeByID("continuous", "data-activated", data.continuous.toString())
 
 	if (data.autoplay !== 0) {
 		autoplay()
 	}
 
-	if (data.game.datachip > 0) {
+	if (!data.continuous && data.game.datachip > 0) {
 		data.game.play.avgbattery = toDecimal(data.game.play.totalbatteryspent/data.game.datachip,3)
 		updateTextByID("avgbattery", data.game.play.avgbattery.toString())
 	}
@@ -360,21 +389,23 @@ function gLoop() {
 		return false
 	}
 
-	/* update gauge bar */
-	let gaugelength = 20 * data.game.points
-	let theGaugeBar = eleByID("gauge")
-	if (theGaugeBar.style.width !== gaugelength+"px") {
-		theGaugeBar.style.width = gaugelength+"px"
-	}
-
-	/* gray out buttons that can't be used */
-	
-	if (data.game.points >= 12 && data.game.points <= 20) {
-		if (data.game.points >= 12) {
-			updateAttributeByID("redeem", "data-canredeem", "1")
+	if (!data.continuous) {
+		/* update gauge bar */
+		let gaugelength = 20 * data.game.points
+		let theGaugeBar = eleByID("gauge")
+		if (theGaugeBar.style.width !== gaugelength+"px") {
+			theGaugeBar.style.width = gaugelength+"px"
 		}
-	} else {
-		updateAttributeByID("redeem", "data-canredeem", "0")
+
+		/* gray out buttons that can't be used */
+		
+		if (data.game.points >= 12 && data.game.points <= 20) {
+			if (data.game.points >= 12) {
+				updateAttributeByID("redeem", "data-canredeem", "1")
+			}
+		} else {
+			updateAttributeByID("redeem", "data-canredeem", "0")
+		}
 	}
 
 	/* auto redeem if 21 */

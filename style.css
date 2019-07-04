@@ -139,6 +139,15 @@ section#definebattery > div > div {
 	opacity: 0.5;
 	pointer-events: none;
 }
+.contstatus {
+	display: none;
+}
+#continuous[data-activated="false"] #active {
+	display: inline;
+}
+#continuous[data-activated="true"] #inactive {
+	display: inline;
+}
 
 #logs {
 	width: 570px;
