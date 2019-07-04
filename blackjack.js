@@ -305,6 +305,10 @@ function autoreplay() {
 	data.game.play.avgbattery = 0
 	data.replay++
 	data.game.battery = data.battery.total
+
+	if (data.replay % 100 === 0) {
+		eleByID("logtext").innerHTML = ""
+	}
 }
 
 function dbLoop() {
@@ -434,9 +438,11 @@ function gLoop() {
 
 let defineBattery = function () { 
 	dbLoop()
+	window.setTimeout(defineBattery, 1000 / 20)
 }
 let game = function () { 
 	gLoop()
+	window.setTimeout(game, 1000 / 1000)
 }
-let _defineBatteryId = setInterval(defineBattery, 1000 / 20)
-let _gameId = setInterval(game, 1000 / 200)
+let _defineBatteryLoop = defineBattery()
+let _gameLoop = game()
