@@ -148,11 +148,17 @@ section#definebattery > div > div {
 #continuous[data-activated="true"] #inactive {
 	display: inline;
 }
-
+#sectionright {
+	width: 750px;
+}
+#sectionright:after {
+	clear: both;
+}
 #logs {
 	width: 570px;
 	min-height: 620px;
 	max-height: 821px;
+	display: inline-block;
 }
 #logtext {
 	width: 100%;
@@ -175,4 +181,13 @@ p.redeem {
 }
 p.blackjack {
 	background-color: #00FFFF
+}
+#resultcsv {
+	width: 120px;
+	height: 816px;
+	display: inline-block;
+}
+#logresult {
+	width: 110px;
+	height: calc(100% - 10px);
 }

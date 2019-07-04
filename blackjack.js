@@ -134,6 +134,7 @@ var data = {
 	},
 	autoplay: 0,
 	continuous: false,
+	replay: 0
 }
 
 eleByID("buy-p1").onclick = function() {
@@ -257,6 +258,10 @@ let textlog = (type, message) => {
 		madiv.scrollTop = madiv.scrollHeight;
 	}
 }
+let resultlog = (values) => {
+	let resultcontainer = eleByID("logresult")
+	resultcontainer.value += values+'\n'
+}
 
 eleByID("roll1").onclick = function() {roll(1,9,10)}
 eleByID("roll2").onclick = function() {roll(1,6,20)}
@@ -290,7 +295,7 @@ function autoplay() {
 function autoreplay() {
 	let avg = toDecimal(data.game.play.totalbatteryspent/data.game.datachip,3)
 	textlog(10,'Autoplay: redeem if >'+data.autoplay+' | '+data.game.datachip+'<i class="datachip"></i>. '+data.game.play.totalbatteryspent+'<i class="battery"></i> used. Avg '+avg+'<i class="battery"></i>/<i class="datachip"></i>')
-
+	resultlog(data.game.datachip.toString()+','+avg.toString())
 	data.game.battery = 0
 	data.game.points = 0
 	data.game.datachip = 0
@@ -298,7 +303,7 @@ function autoreplay() {
 	data.game.play.totalbatteryspent = 0
 	data.game.play.redeem = 0
 	data.game.play.avgbattery = 0
-
+	data.replay++
 	data.game.battery = data.battery.total
 }
 
@@ -417,6 +422,10 @@ function gLoop() {
 		data.game.datachip += redeemchip
 		textlog(4, 'BLACKJACK! '+redeemchip+'<i class="datachip"></i> for '+data.game.points+' pts  ('+batteryspent+'<i class="battery"></i> spent, '+worth+'<i class="battery"></i>/<i class="datachip"></i>). You now have '+data.game.datachip+'<i class="datachip"></i>')
 		data.game.points = 0
+	}
+
+	if (data.autoplay !== 0) {
+		updateTextByID("replay", data.replay.toString())
 	}
 }
 
