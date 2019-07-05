@@ -107,7 +107,7 @@ let updateAttributeBySelector = (elementSelector, attribute, value) => {
 var data = {
 	battery: {
 		free: 700,
-		idle: {d: 60, w: 0, max: 100, default: 60},
+		idle: {d: 60, w: 0, max: 140, default: 60},
 		purchase: {n: 100, c: 0, max: 2000, default: 100},
 		packages: {
 			p1: {b:1000, n:0, l:4, c:100},
@@ -130,11 +130,30 @@ var data = {
 			totalbatteryspent: 0,
 			redeem: 0,
 			avgbattery: 0,
+			failcount: 0,
+			blackjackcount: 0,
 		}
 	},
 	autoplay: 0,
+	apstrategy: {
+		pt10: 1, /* can't redeem */
+		pt11: 1, /* can't redeem */
+		pt12: 1,
+		pt13: 1,
+		pt14: 1,
+		pt15: 1,
+		pt16: 1,
+		pt17: 1,
+		pt18: 1,
+		pt19: 1,
+		pt20: 1,
+	},
+	strategyname: "",
 	continuous: false,
-	replay: 0
+	replay: 0,
+	perfmode: false,
+	devmode: 0, /* becareful if you switch this to 1, will use a lot of process */
+	devresult: "" 
 }
 
 eleByID("buy-p1").onclick = function() {
@@ -182,6 +201,8 @@ eleByID("resetgame").onclick = function() {
 	data.game.play.totalbatteryspent = 0
 	data.game.play.redeem = 0
 	data.game.play.avgbattery = 0
+	data.game.play.failcount = 0
+	data.game.play.blackjackcount = 0
 
 	data.gamestatus = 0
 	updateTextByID("avgbattery", data.game.play.avgbattery.toString())
@@ -202,6 +223,7 @@ let roll = (min, max, cost) => {
 			data.game.points = 0
 
 			textlog(2, 'You rolled '+rolled+' for '+cost+'<i class="battery"></i>. Exceed 21 pts. Reset to 0.')
+			data.game.play.failcount++
 			data.game.play.batteryspent = 0
 		} else {
 			textlog(1, 'You rolled '+rolled+' for '+cost+'<i class="battery"></i>. You reached '+data.game.points+' pts.')
@@ -239,6 +261,7 @@ let getRedeemRatio = () => {
 
 */
 let textlog = (type, message) => {
+	if (data.devmode === 1) {return false}
 	let classtype = ""
 	let madiv = eleByID("logtext")
 	if (data.continuous === false && type < 10) {
@@ -259,107 +282,143 @@ let textlog = (type, message) => {
 	}
 }
 let resultlog = (values) => {
-	let resultcontainer = eleByID("logresult")
-	resultcontainer.value += values+'\n'
+	if (data.devmode === 1) {
+		data.devresult += values+'\n'
+	} else {
+		let resultcontainer = eleByID("logresult")
+		resultcontainer.value += values+'\n'
+	}
 }
 
 eleByID("roll1").onclick = function() {roll(1,9,10)}
 eleByID("roll2").onclick = function() {roll(1,6,20)}
 eleByID("roll3").onclick = function() {roll(1,3,40)}
 eleByID("redeem").onclick = function() {redeem()}
-eleByID("autoplay12").onclick = function() {data.autoplay = 12}
-eleByID("autoplay13").onclick = function() {data.autoplay = 13}
-eleByID("autoplay14").onclick = function() {data.autoplay = 14}
-eleByID("autoplay15").onclick = function() {data.autoplay = 15}
-eleByID("autoplay16").onclick = function() {data.autoplay = 16}
-eleByID("autoplay17").onclick = function() {data.autoplay = 17}
-eleByID("autoplay22").onclick = function() {data.autoplay = 22}
-eleByID("autoplay23").onclick = function() {data.autoplay = 23}
-eleByID("autoplay24").onclick = function() {data.autoplay = 24}
+
+/* autoplay strategy */
+eleByID("aps10-1").onclick = function() {data.apstrategy.pt10 = 1}
+eleByID("aps10-2").onclick = function() {data.apstrategy.pt10 = 2}
+eleByID("aps10-3").onclick = function() {data.apstrategy.pt10 = 3}
+eleByID("aps11-1").onclick = function() {data.apstrategy.pt11 = 1}
+eleByID("aps11-2").onclick = function() {data.apstrategy.pt11 = 2}
+eleByID("aps11-3").onclick = function() {data.apstrategy.pt11 = 3}
+
+eleByID("aps12-1").onclick = function() {data.apstrategy.pt12 = 1}
+eleByID("aps12-2").onclick = function() {data.apstrategy.pt12 = 2}
+eleByID("aps12-3").onclick = function() {data.apstrategy.pt12 = 3}
+eleByID("aps12-4").onclick = function() {data.apstrategy.pt12 = 4}
+eleByID("aps13-1").onclick = function() {data.apstrategy.pt13 = 1}
+eleByID("aps13-2").onclick = function() {data.apstrategy.pt13 = 2}
+eleByID("aps13-3").onclick = function() {data.apstrategy.pt13 = 3}
+eleByID("aps13-4").onclick = function() {data.apstrategy.pt13 = 4}
+eleByID("aps14-1").onclick = function() {data.apstrategy.pt14 = 1}
+eleByID("aps14-2").onclick = function() {data.apstrategy.pt14 = 2}
+eleByID("aps14-3").onclick = function() {data.apstrategy.pt14 = 3}
+eleByID("aps14-4").onclick = function() {data.apstrategy.pt14 = 4}
+
+eleByID("aps15-1").onclick = function() {data.apstrategy.pt15 = 1}
+eleByID("aps15-2").onclick = function() {data.apstrategy.pt15 = 2}
+eleByID("aps15-3").onclick = function() {data.apstrategy.pt15 = 3}
+eleByID("aps15-4").onclick = function() {data.apstrategy.pt15 = 4}
+eleByID("aps16-1").onclick = function() {data.apstrategy.pt16 = 1}
+eleByID("aps16-2").onclick = function() {data.apstrategy.pt16 = 2}
+eleByID("aps16-3").onclick = function() {data.apstrategy.pt16 = 3}
+eleByID("aps16-4").onclick = function() {data.apstrategy.pt16 = 4}
+
+eleByID("aps17-1").onclick = function() {data.apstrategy.pt17 = 1}
+eleByID("aps17-2").onclick = function() {data.apstrategy.pt17 = 2}
+eleByID("aps17-3").onclick = function() {data.apstrategy.pt17 = 3}
+eleByID("aps17-4").onclick = function() {data.apstrategy.pt17 = 4}
+eleByID("aps18-1").onclick = function() {data.apstrategy.pt18 = 1}
+eleByID("aps18-2").onclick = function() {data.apstrategy.pt18 = 2}
+eleByID("aps18-3").onclick = function() {data.apstrategy.pt18 = 3}
+eleByID("aps18-4").onclick = function() {data.apstrategy.pt18 = 4}
+
+eleByID("aps19-1").onclick = function() {data.apstrategy.pt19 = 1}
+eleByID("aps19-2").onclick = function() {data.apstrategy.pt19 = 2}
+eleByID("aps19-3").onclick = function() {data.apstrategy.pt19 = 3}
+eleByID("aps19-4").onclick = function() {data.apstrategy.pt19 = 4}
+eleByID("aps20-1").onclick = function() {data.apstrategy.pt20 = 1}
+eleByID("aps20-2").onclick = function() {data.apstrategy.pt20 = 2}
+eleByID("aps20-3").onclick = function() {data.apstrategy.pt20 = 3}
+eleByID("aps20-4").onclick = function() {data.apstrategy.pt20 = 4}
+
 eleByID("continuous").onclick = function() {data.continuous = !data.continuous}
-eleByID("stopautoplay").onclick = function() {data.continuous = false;data.autoplay=0}
+eleByID("perfmode").onclick = function() {data.perfmode = !data.perfmode}
+eleByID("startautoplay").onclick = function() {data.autoplay=1}
+eleByID("stopautoplay").onclick = function() {
+	data.continuous = false;
+	data.autoplay=0
+	if (data.devmode === 1) {
+		let resultcontainer = eleByID("logresult")
+		resultcontainer.value = data.devresult
+	}
+}
 
 function autoplay() {
-	if (data.game.battery === 0) {
-		data.autoplay = 0
-		return false
-	}
-	if (data.autoplay < 22) {
-		if (data.game.points <= data.autoplay) {
-			if (data.game.battery < 10) {
-				redeem()
-			} else {
-				roll(1,9,10)
-			}
-		} else {
-			redeem()
+	let currentpts = data.game.points
+	let currentbtr = data.game.battery
+	if (currentbtr < 10) {
+		if (!data.continuous) {
+			data.autoplay = 0
 		}
-
-	} else if (data.autoplay === 22) {
-		if (data.game.points < 15) {
-			if (data.game.battery < 10) {
-				redeem()
-			} else {
-				roll(1,9,10)
-			}
-		} else if (data.game.points < 17) {
-			if (data.game.battery < 10) {
-				redeem()
-			} else if (data.game.battery < 20) {
+		if (currentbtr > 0) {
+			textlog(10,"Not enough batteries to roll.")
+		}
+		//return false
+	} else if (data.autoplay > 0) {
+		if (currentpts <= 9) {
+			roll(1,9,10)
+		} else if (data.apstrategy['pt'+currentpts] === 1) { /* roll 1-9 */
+			roll(1,9,10)
+		} else if (data.apstrategy['pt'+currentpts] === 2) { /* roll 1-6 */
+			if (currentbtr < 20) {
+				textlog(1,"Not enough batteries to roll 1-6, will roll 1-9.")
 				roll(1,9,10)
 			} else {
 				roll(1,6,20)
 			}
-		} else {
-			redeem()
-		}
-	} else if (data.autoplay === 23) {
-		if (data.game.points < 15) {
-			if (data.game.battery < 10) {
-				redeem()
-			} else {
+		} else if (data.apstrategy['pt'+currentpts] === 3) { /* roll 1-3 */
+			if (currentbtr < 20) {
+				textlog(1,"Not enough batteries to roll 1-3, will roll 1-9.")
 				roll(1,9,10)
-			}
-		} else if (data.game.points < 16) {
-			if (data.game.battery < 10) {
-				redeem()
-			} else if (data.game.battery < 20) {
-				roll(1,9,10)
-			} else {
+			} else if (currentbtr < 40) {
+				textlog(1,"Not enough batteries to roll 1-3, will roll 1-6.")
 				roll(1,6,20)
-			}
-		} else {
-			redeem()
-		}
-	} else if (data.autoplay === 24) {
-		if (data.game.points < 15) {
-			if (data.game.battery < 10) {
-				redeem()
 			} else {
-				roll(1,9,10)
+				roll(1,3,40)
 			}
-		} else if (data.game.points < 18) {
-			if (data.game.battery < 10) {
-				redeem()
-			} else if (data.game.battery < 20) {
-				roll(1,9,10)
-			} else {
-				roll(1,6,20)
-			}
-		} else {
+		} else if (data.apstrategy['pt'+currentpts] === 4) { /* claim*/
 			redeem()
 		}
 	}
-	
-	if (data.game.battery === 0 && data.continuous) {
+	if (currentbtr < 10 && data.continuous) {
 		autoreplay()
 	}
 }
 
 function autoreplay() {
 	let avg = toDecimal(data.game.play.totalbatteryspent/data.game.datachip,3)
-	textlog(10,'Autoplay: redeem if >'+data.autoplay+' | '+data.game.datachip+'<i class="datachip"></i>. '+data.game.play.totalbatteryspent+'<i class="battery"></i> used. Avg '+avg+'<i class="battery"></i>/<i class="datachip"></i>')
-	resultlog(data.game.datachip.toString()+','+avg.toString())
+	let milestone = 0
+	if (data.game.datachip >= 2600) {milestone = 2600}
+	else if (data.game.datachip >= 2400) {milestone = 2400}
+	else if (data.game.datachip >= 2200) {milestone = 2200}
+	else if (data.game.datachip >= 2000) {milestone = 2000}
+	else if (data.game.datachip >= 1800) {milestone = 1800}
+	else if (data.game.datachip >= 1600) {milestone = 1600}
+	else if (data.game.datachip >= 1400) {milestone = 1400}
+	else if (data.game.datachip >= 1200) {milestone = 1200}
+	else if (data.game.datachip >= 1000) {milestone = 1000}
+	else if (data.game.datachip >= 800) {milestone = 800}
+	else if (data.game.datachip >= 600) {milestone = 600}
+	else if (data.game.datachip >= 400) {milestone = 400}
+	else {milestone = 0}
+	let text = 'Strategy'+data.strategyname+': <span class="milestone'+milestone+'">'+data.game.datachip+'</span><i class="datachip"></i>. '+
+		data.game.play.totalbatteryspent+'<i class="battery"></i> used. Avg '+
+		avg+'<i class="battery"></i>/<i class="datachip"></i> | Fail:'+
+		data.game.play.failcount+' | BJ:'+data.game.play.blackjackcount
+	textlog(10,text)
+	resultlog(data.game.datachip.toString()+','+data.game.play.failcount+','+data.game.play.blackjackcount.toString())
 	data.game.battery = 0
 	data.game.points = 0
 	data.game.datachip = 0
@@ -367,15 +426,29 @@ function autoreplay() {
 	data.game.play.totalbatteryspent = 0
 	data.game.play.redeem = 0
 	data.game.play.avgbattery = 0
+	data.game.play.failcount = 0
+	data.game.play.blackjackcount = 0
 	data.replay++
 	data.game.battery = data.battery.total
 
-	if (data.replay % 100 === 0) {
-		eleByID("logtext").innerHTML = ""
+	if (data.replay % 10 === 0) {
+		let logcontainer = eleByID("logtext")
+		if (logcontainer.childElementCount >= 100) {
+			for (var i = 10 - 1; i >= 0; i--) {
+				logcontainer.removeChild(logcontainer.getElementsByTagName('p')[i])
+			}
+		}
+		if (data.devmode === 1) {
+			document.title = "TTHBJ DEVMODE : ID:"+data.autoplay+" n°"+data.replay
+		}
 	}
-	if (data.replay % 1000 === 0) {
+	if (data.replay % 10000 === 0) {
 		data.continuous = false;
 		data.autoplay=0
+		if (data.devmode === 1) {
+			let resultcontainer = eleByID("logresult")
+			resultcontainer.value = data.devresult
+		}
 	}
 }
 
@@ -438,10 +511,22 @@ function dbLoop() {
 	updateTextByID("db-total-battery", data.battery.total.toString())
 	updateTextByID("db-total-gem", data.battery.cost.gems.toString())
 	updateTextByID("db-total-dalla", data.battery.cost.dalla.toString())
+
+	let strategyname = data.apstrategy.pt10+''+data.apstrategy.pt11+','+
+		data.apstrategy.pt12+''+data.apstrategy.pt13+''+data.apstrategy.pt14+','+
+		data.apstrategy.pt15+''+data.apstrategy.pt16+','+
+		data.apstrategy.pt17+''+data.apstrategy.pt18+','+
+		data.apstrategy.pt19+''+data.apstrategy.pt20
+
+	data.strategyname = strategyname
 }
 
 function gLoop() {
 	updateAttributeByID("game", "data-status", data.gamestatus)
+
+	/* strategy name */
+	updateTextByID("strategyname", data.battery.total+'b_'+data.strategyname)
+
 	if (!data.continuous) {
 		updateTextByID("game-points", data.game.points.toString())
 		updateTextByID("game-battery", data.game.battery.toString())
@@ -451,7 +536,21 @@ function gLoop() {
 		let redeemfor = getRedeemRatio() * data.game.redeemchipbase
 		updateTextByID("game-redeem-dc", redeemfor.toString())
 	}
+
+	updateAttributeByID("aps10", "data-v", data.apstrategy.pt10.toString())
+	updateAttributeByID("aps11", "data-v", data.apstrategy.pt11.toString())
+	updateAttributeByID("aps12", "data-v", data.apstrategy.pt12.toString())
+	updateAttributeByID("aps13", "data-v", data.apstrategy.pt13.toString())
+	updateAttributeByID("aps14", "data-v", data.apstrategy.pt14.toString())
+	updateAttributeByID("aps15", "data-v", data.apstrategy.pt15.toString())
+	updateAttributeByID("aps16", "data-v", data.apstrategy.pt16.toString())
+	updateAttributeByID("aps17", "data-v", data.apstrategy.pt17.toString())
+	updateAttributeByID("aps18", "data-v", data.apstrategy.pt18.toString())
+	updateAttributeByID("aps19", "data-v", data.apstrategy.pt19.toString())
+	updateAttributeByID("aps20", "data-v", data.apstrategy.pt20.toString())
+
 	updateAttributeByID("continuous", "data-activated", data.continuous.toString())
+	updateAttributeByID("perfmode", "data-activated", data.perfmode.toString())
 
 	if (data.autoplay !== 0) {
 		autoplay()
@@ -494,15 +593,23 @@ function gLoop() {
 		data.game.datachip += redeemchip
 		textlog(4, 'BLACKJACK! '+redeemchip+'<i class="datachip"></i> for '+data.game.points+' pts  ('+batteryspent+'<i class="battery"></i> spent, '+worth+'<i class="battery"></i>/<i class="datachip"></i>). You now have '+data.game.datachip+'<i class="datachip"></i>')
 		data.game.points = 0
+		data.game.play.blackjackcount++
 	}
 
 	if (data.autoplay !== 0) {
+		if (data.devmode === 1 && data.replay % 30 !== 0) {
+			return false
+		}
 		updateTextByID("replay", data.replay.toString())
 	}
 }
 
 
 /* Loops */
+let gameFps = 400
+if (data.devmode === 1) {
+	gameFps = 1000
+}
 
 let defineBattery = function () { 
 	dbLoop()
@@ -510,7 +617,11 @@ let defineBattery = function () {
 }
 let game = function () { 
 	gLoop()
-	window.setTimeout(game, 1000 / 1000)
+	if (data.perfmode) {
+		window.setTimeout(game, 1)
+	} else {
+		window.setTimeout(game, 1000 / gameFps)
+	}
 }
 let _defineBatteryLoop = defineBattery()
 let _gameLoop = game()

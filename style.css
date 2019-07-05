@@ -148,6 +148,89 @@ section#definebattery > div > div {
 #continuous[data-activated="true"] #inactive {
 	display: inline;
 }
+#perfmode[data-activated="false"] #active {
+	display: inline;
+}
+#perfmode[data-activated="true"] #inactive {
+	display: inline;
+}
+
+/* autoplay strategy */
+
+#autoplaystrategy {
+	font-family: 'Arial'
+}
+#autoplaystrategy table tbody {
+	font-size: 13px;
+}
+#autoplaystrategy table td {
+	text-align: center;
+	width: 80px;
+	color: black;
+	background-color: #fff;
+}
+
+#aps12 td, #aps13 td, #aps14 td {
+	background-color: #6BEE62 !important;
+}
+#aps15 td, #aps16 td {
+	background-color: #FFF62A !important;
+}
+#aps17 td, #aps18 td {
+	background-color: #FA9E44 !important;
+}
+#aps19 td, #aps20 td {
+	background-color: #ff7675 !important;
+}
+
+.btnv:after {
+	content: "X"
+}
+tr #aps10-1, tr #aps10-2, tr #aps10-3, tr #aps10-4,
+tr #aps11-1, tr #aps11-2, tr #aps11-3, tr #aps11-4,
+tr #aps12-1, tr #aps12-2, tr #aps12-3, tr #aps12-4,
+tr #aps13-1, tr #aps13-2, tr #aps13-3, tr #aps13-4,
+tr #aps14-1, tr #aps14-2, tr #aps14-3, tr #aps14-4,
+tr #aps15-1, tr #aps15-2, tr #aps15-3, tr #aps15-4,
+tr #aps16-1, tr #aps16-2, tr #aps16-3, tr #aps16-4,
+tr #aps17-1, tr #aps17-2, tr #aps17-3, tr #aps17-4,
+tr #aps18-1, tr #aps18-2, tr #aps18-3, tr #aps18-4,
+tr #aps19-1, tr #aps19-2, tr #aps19-3, tr #aps19-4,
+tr #aps20-1, tr #aps20-2, tr #aps20-3, tr #aps20-4 {
+	background-color: silver;
+	color: black;
+}
+tr[data-v="1"] #aps9-1,
+tr[data-v="1"] #aps10-1, tr[data-v="2"] #aps10-2, tr[data-v="3"] #aps10-3, tr[data-v="4"] #aps10-4,
+tr[data-v="1"] #aps11-1, tr[data-v="2"] #aps11-2, tr[data-v="3"] #aps11-3, tr[data-v="4"] #aps11-4,
+tr[data-v="1"] #aps12-1, tr[data-v="2"] #aps12-2, tr[data-v="3"] #aps12-3, tr[data-v="4"] #aps12-4,
+tr[data-v="1"] #aps13-1, tr[data-v="2"] #aps13-2, tr[data-v="3"] #aps13-3, tr[data-v="4"] #aps13-4,
+tr[data-v="1"] #aps14-1, tr[data-v="2"] #aps14-2, tr[data-v="3"] #aps14-3, tr[data-v="4"] #aps14-4,
+tr[data-v="1"] #aps15-1, tr[data-v="2"] #aps15-2, tr[data-v="3"] #aps15-3, tr[data-v="4"] #aps15-4,
+tr[data-v="1"] #aps16-1, tr[data-v="2"] #aps16-2, tr[data-v="3"] #aps16-3, tr[data-v="4"] #aps16-4,
+tr[data-v="1"] #aps17-1, tr[data-v="2"] #aps17-2, tr[data-v="3"] #aps17-3, tr[data-v="4"] #aps17-4,
+tr[data-v="1"] #aps18-1, tr[data-v="2"] #aps18-2, tr[data-v="3"] #aps18-3, tr[data-v="4"] #aps18-4,
+tr[data-v="1"] #aps19-1, tr[data-v="2"] #aps19-2, tr[data-v="3"] #aps19-3, tr[data-v="4"] #aps19-4,
+tr[data-v="1"] #aps20-1, tr[data-v="2"] #aps20-2, tr[data-v="3"] #aps20-3, tr[data-v="4"] #aps20-4 {
+	background-color: black;
+	color: white;
+}
+tr[data-v="1"] #aps9-1 .btnv:after,
+tr[data-v="1"] #aps10-1 .btnv:after, tr[data-v="2"] #aps10-2 .btnv:after, tr[data-v="3"] #aps10-3 .btnv:after, tr[data-v="4"] #aps10-4 .btnv:after,
+tr[data-v="1"] #aps11-1 .btnv:after, tr[data-v="2"] #aps11-2 .btnv:after, tr[data-v="3"] #aps11-3 .btnv:after, tr[data-v="4"] #aps11-4 .btnv:after,
+tr[data-v="1"] #aps12-1 .btnv:after, tr[data-v="2"] #aps12-2 .btnv:after, tr[data-v="3"] #aps12-3 .btnv:after, tr[data-v="4"] #aps12-4 .btnv:after,
+tr[data-v="1"] #aps13-1 .btnv:after, tr[data-v="2"] #aps13-2 .btnv:after, tr[data-v="3"] #aps13-3 .btnv:after, tr[data-v="4"] #aps13-4 .btnv:after,
+tr[data-v="1"] #aps14-1 .btnv:after, tr[data-v="2"] #aps14-2 .btnv:after, tr[data-v="3"] #aps14-3 .btnv:after, tr[data-v="4"] #aps14-4 .btnv:after,
+tr[data-v="1"] #aps15-1 .btnv:after, tr[data-v="2"] #aps15-2 .btnv:after, tr[data-v="3"] #aps15-3 .btnv:after, tr[data-v="4"] #aps15-4 .btnv:after,
+tr[data-v="1"] #aps16-1 .btnv:after, tr[data-v="2"] #aps16-2 .btnv:after, tr[data-v="3"] #aps16-3 .btnv:after, tr[data-v="4"] #aps16-4 .btnv:after,
+tr[data-v="1"] #aps17-1 .btnv:after, tr[data-v="2"] #aps17-2 .btnv:after, tr[data-v="3"] #aps17-3 .btnv:after, tr[data-v="4"] #aps17-4 .btnv:after,
+tr[data-v="1"] #aps18-1 .btnv:after, tr[data-v="2"] #aps18-2 .btnv:after, tr[data-v="3"] #aps18-3 .btnv:after, tr[data-v="4"] #aps18-4 .btnv:after,
+tr[data-v="1"] #aps19-1 .btnv:after, tr[data-v="2"] #aps19-2 .btnv:after, tr[data-v="3"] #aps19-3 .btnv:after, tr[data-v="4"] #aps19-4 .btnv:after,
+tr[data-v="1"] #aps20-1 .btnv:after, tr[data-v="2"] #aps20-2 .btnv:after, tr[data-v="3"] #aps20-3 .btnv:after, tr[data-v="4"] #aps20-4 .btnv:after {
+	content: "V";
+}
+
+
 #sectionright {
 	width: 750px;
 }
@@ -157,17 +240,18 @@ section#definebattery > div > div {
 #logs {
 	width: 570px;
 	min-height: 620px;
-	max-height: 821px;
+	max-height: 1360px;
 	display: inline-block;
 }
 #logtext {
 	width: 100%;
-	height: 762px;
+	height: 1294px;
 	overflow-y: scroll;
 }
 #logtext p {
 	margin: 1px 3px;
-	color: #000000
+	color: #000;
+	background-color: #fff
 }
 
 p.roll {
@@ -186,8 +270,24 @@ p.blackjack {
 	width: 120px;
 	height: 816px;
 	display: inline-block;
+	vertical-align: top;
 }
 #logresult {
 	width: 110px;
-	height: calc(100% - 10px);
+	height: calc(100% - 25px);
 }
+.autoplayresult > span {
+	padding: 0 3px;
+}
+.milestone400 {background-color: #ffffff;}
+.milestone600 {background-color: #ffffff;}
+.milestone800 {background-color: #ffffff;}
+.milestone1000 {background-color: #dfe6e9;}
+.milestone1200 {background-color: #dfe6e9;}
+.milestone1400 {background-color: #b2bec3;}
+.milestone1600 {background-color: #55efc4;}
+.milestone1800 {background-color: #fdcb6e;}
+.milestone2000 {background-color: #ff7675;}
+.milestone2200 {background-color: #e84393;}
+.milestone2400 {background-color: #a29bfe;}
+.milestone2600 {background-color: #0984e3;}

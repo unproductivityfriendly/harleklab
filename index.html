@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TTH Blackjack simulator</title>
+	<title>TTH Harlek Lab Simulator</title>
 	<meta charset=utf-8>
 	<meta name=description content="balmung">
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="author" content="Hayenn#0109">
 </head>
 <body>
-	
 	<div id="sectionleft">
 		<section>
 			<h1>TTH Blackjack Simulator (Hayenn#0109)</h1>
@@ -36,11 +36,8 @@
 			</div>
 			<div id="db-idle">
 				<div id="db-idle-label">Idle</div>
-				<div id="db-idle-daily"><input id="idb-idle" name="idb-idle" type="number" min="1" max="100" step="1" value="60"></div>
+				<div id="db-idle-daily"><input id="idb-idle" name="idb-idle" type="number" min="1" max="140" step="1" value="60"></div>
 				<div id="db-idle-week"><span id="db-idle-week-value">0</span><i class="battery"></i></div>
-			</div>
-			<div id="db-spacing">
-				<div>&nbsp;</div>
 			</div>
 			<div id="db-spacing">
 				<div>&nbsp;</div>
@@ -128,22 +125,96 @@
 				<button id="roll3">Roll 1-3 for 40<i class="battery"></i></button>
 				<button id="redeem" data-canredeem="0">Redeem for <span id="game-redeem-dc">0</span><i class="datachip"></i></button>
 			</div><br>
-			<div>
-				Autoplay (Roll 1-9 only):<button id="continuous" data-activated="0"><span id="active" class="contstatus">Activate</span><span id="inactive"  class="contstatus">Disable</span> Continuous Autoplay</button><button id="stopautoplay">Stop Autoplay</button>
-				<br>
-				<button id="autoplay12">Redeem if > 12</button>
-				<button id="autoplay13">Redeem if > 13</button>
-				<button id="autoplay14">Redeem if > 14</button>
-				<button id="autoplay15">Redeem if > 15</button>
-				<button id="autoplay16">Redeem if > 16</button>
-				<button id="autoplay17">Redeem if > 17</button><br>
-				<button id="autoplay22">1-9 if 0-14, 1-6 if 15-16</button>
-				<button id="autoplay23">1-9 if 0-14, 1-6 if 15</button>
-				<button id="autoplay24">1-9 if 0-14, 1-6 if 15-17</button>
+			<div id="autoplaystrategy">
+				<h3>Auto-play</h3>
+				<p>Strategy : <span id="strategyname"></span></p>
+				<table>
+					<thead>
+						<tr><th>Condition</th><th>Roll 1-9</th><th>Roll 1-6</th><th>Roll 1-3</th><th>Claim</th><th>Reward</th></tr>
+					</thead>
+					<tbody>
+						<tr id="aps9" data-v="1"><td>0-9 Points</td><td><button id="aps9-1"><span class="btnv"></span></button></td><td></td><td></td><td></td><td rowspan="3"></td></tr>
+						<tr id="aps10" data-v="1">
+							<td id="aps10-c">10 Points</td>
+							<td><button id="aps10-1"><span class="btnv"></span></button></td>
+							<td><button id="aps10-2"><span class="btnv"></span></button></td>
+							<td><button id="aps10-3"><span class="btnv"></span></button></td>
+							<td id="aps10-4"></td></tr>
+						<tr id="aps11" data-v="1">
+							<td id="aps11-c">11 Points</td>
+							<td><button id="aps11-1"><span class="btnv"></span></button></td>
+							<td><button id="aps11-2"><span class="btnv"></span></button></td>
+							<td><button id="aps11-3"><span class="btnv"></span></button></td>
+							<td id="aps11-4"></td></tr>
+						<tr id="aps12" data-v="1">
+							<td id="aps12-c">12 Points</td>
+							<td><button id="aps12-1"><span class="btnv"></span></button></td>
+							<td><button id="aps12-2"><span class="btnv"></span></button></td>
+							<td><button id="aps12-3"><span class="btnv"></span></button></td>
+							<td><button id="aps12-4"><span class="btnv"></span></button></td><td rowspan="3">x1</td></tr>
+						<tr id="aps13" data-v="1">
+							<td id="aps13-c">13 Points</td>
+							<td><button id="aps13-1"><span class="btnv"></span></button></td>
+							<td><button id="aps13-2"><span class="btnv"></span></button></td>
+							<td><button id="aps13-3"><span class="btnv"></span></button></td>
+							<td><button id="aps13-4"><span class="btnv"></span></button></td></tr>
+						<tr id="aps14" data-v="1">
+							<td id="aps14-c">14 Points</td>
+							<td><button id="aps14-1"><span class="btnv"></span></button></td>
+							<td><button id="aps14-2"><span class="btnv"></span></button></td>
+							<td><button id="aps14-3"><span class="btnv"></span></button></td>
+							<td><button id="aps14-4"><span class="btnv"></span></button></td></tr>
+						<tr id="aps15" data-v="1">
+							<td id="aps15-c">15 Points</td>
+							<td><button id="aps15-1"><span class="btnv"></span></button></td>
+							<td><button id="aps15-2"><span class="btnv"></span></button></td>
+							<td><button id="aps15-3"><span class="btnv"></span></button></td>
+							<td><button id="aps15-4"><span class="btnv"></span></button></td><td rowspan="2">x1.2</td></tr>
+						<tr id="aps16" data-v="1">
+							<td id="aps16-c">16 Points</td>
+							<td><button id="aps16-1"><span class="btnv"></span></button></td>
+							<td><button id="aps16-2"><span class="btnv"></span></button></td>
+							<td><button id="aps16-3"><span class="btnv"></span></button></td>
+							<td><button id="aps16-4"><span class="btnv"></span></button></td></tr>
+						<tr id="aps17" data-v="1">
+							<td id="aps17-c">17 Points</td>
+							<td><button id="aps17-1"><span class="btnv"></span></button></td>
+							<td><button id="aps17-2"><span class="btnv"></span></button></td>
+							<td><button id="aps17-3"><span class="btnv"></span></button></td>
+							<td><button id="aps17-4"><span class="btnv"></span></button></td><td rowspan="2">x1.8</td></tr>
+						<tr id="aps18" data-v="1">
+							<td id="aps18-c">18 Points</td>
+							<td><button id="aps18-1"><span class="btnv"></span></button></td>
+							<td><button id="aps18-2"><span class="btnv"></span></button></td>
+							<td><button id="aps18-3"><span class="btnv"></span></button></td>
+							<td><button id="aps18-4"><span class="btnv"></span></button></td></tr>
+						<tr id="aps19" data-v="1">
+							<td id="aps19-c">19 Points</td>
+							<td><button id="aps19-1"><span class="btnv"></span></button></td>
+							<td><button id="aps19-2"><span class="btnv"></span></button></td>
+							<td><button id="aps19-3"><span class="btnv"></span></button></td>
+							<td><button id="aps19-4"><span class="btnv"></span></button></td><td rowspan="2">x3.2</td></tr>
+						<tr id="aps20" data-v="1">
+							<td id="aps20-c">20 Points</td>
+							<td><button id="aps20-1"><span class="btnv"></span></button></td>
+							<td><button id="aps20-2"><span class="btnv"></span></button></td>
+							<td><button id="aps20-3"><span class="btnv"></span></button></td>
+							<td><button id="aps20-4"><span class="btnv"></span></button></td></tr>
+						<tr>
+							<td colspan="3"><button id="continuous" data-activated="0"><span id="active" class="contstatus">Activate</span><span id="inactive" class="contstatus">Disable</span> Continuous Autoplay</button></td>
+							<td colspan="3"><button id="startautoplay">Start Autoplay</button>&nbsp;<button id="stopautoplay">Stop Autoplay</button></td></tr>
+						<tr>
+							<td colspan="6">
+								<button id="perfmode" data-activated="0"><span id="active" class="contstatus">Activate</span><span id="inactive" class="contstatus">Disable</span> Performance Mode</button>
+								Can make your browser crash
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div>Notes:<br>
 				Activating Continuous Autoplay will not log individual rolls and redeem, only the total results.<br>
-				Continuous Mode will flush the logs every 100 replay to reduce lag. Results in the selectable area are kept.
+				Continuous Mode will flush the 10 first results after 100 autoplay to reduce lag. Results in the selectable area are kept.
 			</div>
 		</section>
 	</div>
@@ -156,16 +227,22 @@
 		</section>
 		<section id="resultcsv">
 			Replay : <span id="replay">0</span>
-			<textarea id="logresult"></textarea>
+			<textarea id="logresult" placeholder="datachip,fail,bj"></textarea>
 		</section>
 	</div>
 	
-
 	<div>
 		<script src="HackTimer.js"></script>
 		<script src="HackTimerWorker.min.js"></script>
 		<script src="blackjack.js"></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-143359932-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
 
+		  gtag('config', 'UA-143359932-1');
+		</script>
 	</div>
 </body>
 </html>
