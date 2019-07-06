@@ -255,16 +255,16 @@ tr[data-v="1"] #aps20-1 .btnv:after, tr[data-v="2"] #aps20-2 .btnv:after, tr[dat
 }
 
 p.roll {
-	background-color: #B7E1CD
+	background-color: #B7E1CD !important
 }
 p.fail {
-	background-color: #E06666
+	background-color: #E06666 !important
 }
 p.redeem {
-	background-color: #00FF00
+	background-color: #00FF00 !important
 }
 p.blackjack {
-	background-color: #00FFFF
+	background-color: #00FFFF !important
 }
 #resultcsv {
 	width: 120px;
